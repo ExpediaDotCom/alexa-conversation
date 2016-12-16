@@ -1,11 +1,11 @@
 {
   "name": "alexa-conversation",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Conversational test framework for Amazon Alexa skills",
   "license": "TBD",
   "private": true,
   "publishConfig": {
-    "registry":"http://nexuslab.alm/nexus/content/repositories/npm-internal/"
+    "registry": "http://nexuslab.alm/nexus/content/repositories/npm-internal/"
   },
   "engines": {
     "node": ">=5.0.0"
