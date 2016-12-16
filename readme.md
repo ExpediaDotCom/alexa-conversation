@@ -21,7 +21,7 @@ const opts = {
 
 conversation(opts)
   .userSays('LaunchStubsIntent', {persona: 'someone'})
-    plainResponse
+    .plainResponse
       .shouldEqual('Welcome back', 'This is the reprompt')
       .shouldContain('Welcome'); // supports several checks for each reply
   .end(); // this will actually run the conversation defined above
