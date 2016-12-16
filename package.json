@@ -1,6 +1,6 @@
 {
   "name": "@expedia/alexa-conversation",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Conversational test framework for Amazon Alexa skills",
   "license": "TBD",
   "publishConfig": {
