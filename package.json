@@ -1,5 +1,5 @@
 {
-  "name": "alexa-conversation",
+  "name": "@expedia/alexa-conversation",
   "version": "0.1.1",
   "description": "Conversational test framework for Amazon Alexa skills",
   "license": "TBD",
