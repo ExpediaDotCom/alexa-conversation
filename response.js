@@ -5,9 +5,9 @@ const assert = require('chai').assert;
 const _ = require('underscore');
 const fuzzy = require('fuzzyset.js');
 
-function initResponse(test, conversationApi, ssml) {
+function initResponse(test, conversationApi, ssml, fuzzyDefault) {
   const type = ssml ? 'ssml' : 'plain text';
-  const FUZZY_MIN_SCORE = 0.85; // minimum distance to match strings
+  const FUZZY_MIN_SCORE = _.isUndefined(fuzzyDefault) ? 0.93 : fuzzyDefault; // minimum distance to match strings
 
   // Private
 
@@ -122,6 +122,6 @@ function initResponse(test, conversationApi, ssml) {
 }
 
 module.exports = {
-  plain: (test, conversationApi) => initResponse(test, conversationApi, false),
+  plain: (test, conversationApi, fuzzyDefault) => initResponse(test, conversationApi, false, fuzzyDefault),
   ssml: (test, conversationApi) => initResponse(test, conversationApi, true)
 };

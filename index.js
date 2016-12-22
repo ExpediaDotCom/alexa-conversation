@@ -1,7 +1,5 @@
 'use strict';
 
-const assert = require('chai').assert;
-const striptags = require('striptags');
 const colors = require('colors/safe');
 const StackTrace = require('stacktrace-js');
 const _ = require('underscore');
@@ -28,7 +26,7 @@ module.exports = function conversation({name, app, appId,
   accessToken = '0b42d14150e71fb356f2abc42f5bc261dd18573a86a84aa5d7a74592b505a0b7',
   requestId = 'EdwRequestId.33ac9138-640f-4e6e-ab71-b9619b2c2210',
   locale = 'en-US',
-  fuzzyDistance = 0.8
+  fuzzyDistance = 0.93
 }) {
   ev.init({appId, sessionId, userId, accessToken, requestId, locale});
   // chain of promises to handle the different conversation steps
@@ -81,7 +79,7 @@ module.exports = function conversation({name, app, appId,
     initStep(step);
     slots = slots || {};
     if (step > 0) isNew = false;
-    let index = step;
+    const index = step;
     dialog = dialog.then(prevEvent =>
       sendEvent(ev.buildRequest(intentName, slots, isNew, prevEvent), app).then(res => {
         tests[index] = _.extend(tests[index], {intentName, slots, actual: res});
@@ -98,9 +96,10 @@ module.exports = function conversation({name, app, appId,
   }
 
   function end() { // runs the tests stored in `dialog` in seq
-    describe('Begin of hack', function() {
+    describe(`Executing conversation: ${conversationName}`, function() {
+      this.timeout(5000);
       before(() => dialog.then(testConversation).catch(errorLogger));
-      it('End of hack', done => done());
+      it('Finished executing conversation', done => done());
       // http://stackoverflow.com/questions/22465431/how-can-i-dynamically-generate-test-cases-in-javascript-node
     });
   }
