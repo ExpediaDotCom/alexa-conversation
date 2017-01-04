@@ -3,9 +3,6 @@
   "version": "0.1.3",
   "description": "Conversational test framework for Amazon Alexa skills",
   "license": "TBD",
-  "publishConfig": {
-    "registry": "http://nexuslab.alm/nexus/content/repositories/npm-internal/"
-  },
   "engines": {
     "node": ">=5.0.0"
   },
