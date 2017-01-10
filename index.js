@@ -3,7 +3,7 @@
 const colors = require('colors/safe');
 const StackTrace = require('stacktrace-js');
 const _ = require('underscore');
-const ev = require('./events');
+const events = require('./events');
 const response = require('./response.js');
 
 function sendEvent(event, app) {
@@ -29,13 +29,12 @@ module.exports = function conversation({name, app, appId,
   fixSpaces = false,
   fuzzyDistance = 0.93
 }) {
-  ev.init({appId, sessionId, userId, accessToken, requestId, locale});
+  const eventBuilder = events.init({appId, sessionId, userId, accessToken, requestId, locale});
   // chain of promises to handle the different conversation steps
   const conversationName = name;
   const tests = [];
   let dialog = Promise.resolve(); // start of chain of promises
   let step = -1;
-  let isNew = true;
 
   const api = { // public API
     userSays,
@@ -79,19 +78,15 @@ module.exports = function conversation({name, app, appId,
     step++;
     initStep(step);
     slots = slots || {};
-    if (step > 0) isNew = false;
     const index = step;
     dialog = dialog.then(prevEvent =>
-      sendEvent(ev.buildRequest(intentName, slots, isNew, prevEvent), app).then(res => {
+      sendEvent(eventBuilder.buildRequest(intentName, slots, prevEvent), app).then(res => {
         tests[index] = _.extend(tests[index], {intentName, slots, actual: res});
         return res;
       })
     ); // return promise already
 
     const testCase = tests[step];
-
-    console.log('Instantiating responses fixSpaces = '+fixSpaces);
-
     api.plainResponse = response.plain(testCase, api, fixSpaces, fuzzyDistance);
     api.ssmlResponse = response.ssml(testCase, api, fixSpaces, fuzzyDistance);
 
