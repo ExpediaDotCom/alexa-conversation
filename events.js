@@ -4,7 +4,7 @@ const _ = require('underscore');
 
 function buildSlots(slots) {
   const res = {};
-  _.each(slots, function(value, key) {
+  _.each(slots, (value, key) => {
     res[key] = {
       name: key,
       value: value
@@ -17,8 +17,7 @@ function buildSession(e) {
   return e ? e.sessionAttributes : {};
 }
 
-function init(optionsArg) {
-  let options = {};
+function init(options) {
   let isNew = true;
 
   // public API
@@ -62,4 +61,4 @@ function init(optionsArg) {
   return api;
 }
 
-module.exports = init;
+module.exports = {init};
