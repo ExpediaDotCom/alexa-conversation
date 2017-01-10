@@ -12,6 +12,17 @@
       "code": 100,
       "ignoreStrings": true,
       "ignoreTemplateLiterals": true
-    }]
+    }],
+    "prefer-const": ["error", {
+        "destructuring": "any",
+        "ignoreReadBeforeAssign": false
+    }],
+    "quotes": ["error", "single", {
+      "allowTemplateLiterals": true,
+      "avoidEscape": true
+      }
+    ],
+    "prefer-arrow-callback": "error",
+    "camelcase": "warn"
   }
 }
