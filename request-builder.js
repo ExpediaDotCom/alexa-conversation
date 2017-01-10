@@ -24,10 +24,10 @@ function init(options) {
 
   const api = {
     init,
-    buildRequest
+    build
   };
 
-  function buildRequest(intentName, slots, prevEvent) {
+  function build(intentName, slots, prevEvent) {
     if (!options.appId) throw String('AppId not specified. Please run events.init(appId) before building a Request');
     const res = { // override more stuff later as we need
       session: {

@@ -3,8 +3,8 @@
 const colors = require('colors/safe');
 const StackTrace = require('stacktrace-js');
 const _ = require('underscore');
-const events = require('./events');
-const response = require('./response.js');
+const RequestBuilder = require('./request-builder');
+const response = require('./response');
 
 function sendEvent(event, app) {
   return new Promise((resolve, reject) => {
@@ -29,7 +29,7 @@ module.exports = function conversation({name, app, appId,
   fixSpaces = false,
   fuzzyDistance = 0.93
 }) {
-  const eventBuilder = events.init({appId, sessionId, userId, accessToken, requestId, locale});
+  const requestBuilder = RequestBuilder.init({appId, sessionId, userId, accessToken, requestId, locale});
   // chain of promises to handle the different conversation steps
   const conversationName = name;
   const tests = [];
@@ -74,13 +74,13 @@ module.exports = function conversation({name, app, appId,
 
   // Public
 
-  function userSays(intentName, slots) {
+  function userSays(intentName, slotsArg) {
     step++;
     initStep(step);
-    slots = slots || {};
+    const slots = slotsArg || {};
     const index = step;
     dialog = dialog.then(prevEvent =>
-      sendEvent(eventBuilder.buildRequest(intentName, slots, prevEvent), app).then(res => {
+      sendEvent(requestBuilder.build(intentName, slots, prevEvent), app).then(res => {
         tests[index] = _.extend(tests[index], {intentName, slots, actual: res});
         return res;
       })
