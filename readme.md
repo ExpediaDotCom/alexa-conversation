@@ -1,17 +1,27 @@
 # Alexa Conversation: Tests for your Alexa skills
 
-Framework to easily test your Alexa skills functionally by creating a **conversation** with your skill.
+Framework to easily test your Alexa skills functionally by creating a **conversation** with your skill. This framework makes it easy to test your Alexa skill's outputs for a given user input (intent) in different ways. This library is build on top of mocha, so you will need mocha installed in order to run the tests written with this framework, 
+
+## Install
+
+### Install `alexa-conversation`
+
+`npm install --save-dev alexa-conversation`
+
+### Install `mocha` (if you don't have it already)
+
+`npm install -g mocha` (you can install it locally too, up to you)
 
 ## How to use
 
-Create a new file:
+In your functional test files, include the `alexa-conversation` package
 
 ```js
 
-const conversation = require('../lib/conversation.js');
+const conversation = require('alexa-conversation');
 const app = require('../../index.js'); // your Alexa skill main file. `app.handle` needs to exist
 
-const opts = {
+const opts = { // those will be used to generate the requests to your skill
   name: 'Conversation Name',
   app: app,
   appId: 'your-app-id'
@@ -20,15 +30,22 @@ const opts = {
 
 
 conversation(opts)
-  .userSays('LaunchStubsIntent', {persona: 'someone'})
-    plainResponse
+  .userSays('LaunchIntent')
+    .plainResponse
       .shouldEqual('Welcome back', 'This is the reprompt')
-      .shouldContain('Welcome'); // supports several checks for each reply
+      .shouldNotEqual('Wrong answer', 'Wrong reprompt')
+      .shouldContain('Welcome')
+      .shouldMatch(/<say>Welcome back</say>/)
+      .shouldApproximate('This is an approximate match')
+  .userSays('IntentWhichRequiresSlots', {slotOne: 'slotValue'})
+    .ssmlResponse
+      .shouldMatch(/<say>(Hello|Bye)</say>/)
+      .shouldNotMatch(/<say>Wrong answer</say>/)
   .end(); // this will actually run the conversation defined above
 
 ```
 
-This module requires `mocha` as a `peerDependency` (make sure you have it installed either globally or locally: run `npm install mocha -g`). After that just run:
+Again, this module requires `mocha` as a `peerDependency` (make sure you have it installed either globally or locally: run `npm install mocha -g`). After that just run:
 
 ```
 mocha {path/to/your/test.js}
@@ -49,7 +66,8 @@ Initializes a new `conversation` and returns itself.
 #### Optional parameters:
 
 - `sessionId` *String*: Will default to `SessionId.ee2e2123-75dc-4b32-bf87-8633ba72c294` if not provided.
-- `userId` *String*: Will default to  `amzn1.ask.account.AHEYQEFEHVSPRHPZS4ZKSLDADKC62MMFTEC7MVZ636U56XIFWCFUAJ2Q2RJE47PNDHDBEEMMDTEQXWFSK3OPALF4G2D2QAJW4SDMEI5DCULK5G4R32T76G5SZIWDMJ2ZZQ37UYH2BIXBQ3GIGEBIRW4M4YV5QOQG3JXHB73CTH6AAPYZBOIQE5N3IKUETT54HMTRUX2EILTFGWQ` if not provided.
+- `fixSpaces` *Boolean*: Defaults to false. If set to true, it will remove any unnecessary spaces form the *actual8 responses before performing any assertions against them. Example: double spaces, spaces before comma or other punctuation marks, etc. This can be useful depending on how you build your reponses.
+- `userId` *String*: Will default to `amzn1.ask.account.AHEYQEFEHVSPRHPZS4ZKSLDADKC62MMFTEC7MVZ636U56XIFWCFUAJ2Q2RJE47PNDHDBEEMMDTEQXWFSK3OPALF4G2D2QAJW4SDMEI5DCULK5G4R32T76G5SZIWDMJ2ZZQ37UYH2BIXBQ3GIGEBIRW4M4YV5QOQG3JXHB73CTH6AAPYZBOIQE5N3IKUETT54HMTRUX2EILTFGWQ` if not provided.
 - `accessToken` *String*: Will default to  `0b42d14150e71fb356f2abc42f5bc261dd18573a86a84aa5d7a74592b505a0b7` if not provided.
 - `requestId` *String*: Will default to  `EdwRequestId.33ac9138-640f-4e6e-ab71-b9619b2c2210` if not provided.
 - `locale` *String*: Will default to `en-US` if not provided.
@@ -67,6 +85,18 @@ The `response` is taken form the JSON field: `response.outputSpeech.ssml` and th
 ### `plainResponse`
 
 Use this member to add checks to the last `plain text` `response` and reprompt. Plain text is the same as the `ssmlResponse` without the markup tags.
+
+### `shouldMatch(expectedSpeechRegex: Regex, expectedRepromptRegex: Regex)`
+
+Will assert that `expectedSpeechRegex` and `expectedRepromptRegex` Strings **match** (`String.match()`) the responses from `plainResponse` or `ssmlResponse`.
+
+This is useful for implementing powerful checks like cases where several responses are valid (i.e. dates, locations, or dynamic conditions like weather, etc.)
+
+### `shouldNotMatch(expectedSpeechRegex: Regex, expectedRepromptRegex: Regex)`
+
+Will assert that `expectedSpeechRegex` and `expectedRepromptRegex` Strings **do not match** (`!String.match()`) the responses from `plainResponse` or `ssmlResponse`.
+
+This is useful for implementing powerful checks like cases where several responses are valid (i.e. dates, locations, or dynamic conditions like weather, etc.)
 
 ### `shouldApproximate(expectedSpeech: String, expectedReprompt: String, minFuzzyScore: float)`
 
