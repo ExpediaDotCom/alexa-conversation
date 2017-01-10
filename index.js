@@ -6,7 +6,7 @@ const _ = require('underscore');
 const RequestBuilder = require('./request-builder');
 const response = require('./response');
 
-function sendEvent(event, app) {
+function sendRequest(event, app) {
   return new Promise((resolve, reject) => {
     app.handler(event, {
       succeed: resolve,
@@ -80,7 +80,7 @@ module.exports = function conversation({name, app, appId,
     const slots = slotsArg || {};
     const index = step;
     dialog = dialog.then(prevEvent =>
-      sendEvent(requestBuilder.build(intentName, slots, prevEvent), app).then(res => {
+      sendRequest(requestBuilder.build(intentName, slots, prevEvent), app).then(res => {
         tests[index] = _.extend(tests[index], {intentName, slots, actual: res});
         return res;
       })
