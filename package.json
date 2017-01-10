@@ -1,8 +1,8 @@
 {
   "name": "alexa-conversation",
-  "version": "0.1.3",
-  "description": "Conversational test framework for Amazon Alexa skills",
-  "license": "TBD",
+  "version": "0.0.1",
+  "description": "Functional test framework for Amazon Alexa skills",
+  "license": "ISC",
   "engines": {
     "node": ">=5.0.0"
   },
@@ -27,6 +27,6 @@
   "devDependencies": {
     "eslint": "^3.5.0",
     "eslint-config-google": "^0.6.0",
-    "mocha": "^3.0.0"
+    "mocha": "^3.2.0"
   }
 }
