@@ -2,8 +2,7 @@
   "extends": "google",
   "env": {
     "node": true,
-    "es6": true,
-    "mocha": true
+    "es6": true
   },
   "rules": {
     "no-console": 0,
@@ -12,6 +11,18 @@
       "code": 100,
       "ignoreStrings": true,
       "ignoreTemplateLiterals": true
-    }]
+    }],
+    "prefer-const": ["error", {
+        "destructuring": "any",
+        "ignoreReadBeforeAssign": false
+    }],
+    "quotes": ["error", "single", {
+      "allowTemplateLiterals": true,
+      "avoidEscape": true
+      }
+    ],
+    "no-param-reassign": "error",
+    "prefer-arrow-callback": "error",
+    "camelcase": "warn"
   }
 }
