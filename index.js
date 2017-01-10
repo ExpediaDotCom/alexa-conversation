@@ -26,6 +26,7 @@ module.exports = function conversation({name, app, appId,
   accessToken = '0b42d14150e71fb356f2abc42f5bc261dd18573a86a84aa5d7a74592b505a0b7',
   requestId = 'EdwRequestId.33ac9138-640f-4e6e-ab71-b9619b2c2210',
   locale = 'en-US',
+  fixSpaces = false,
   fuzzyDistance = 0.93
 }) {
   ev.init({appId, sessionId, userId, accessToken, requestId, locale});
@@ -89,8 +90,10 @@ module.exports = function conversation({name, app, appId,
 
     const testCase = tests[step];
 
-    api.plainResponse = response.plain(testCase, api, fuzzyDistance);
-    api.ssmlResponse = response.ssml(testCase, api);
+    console.log('Instantiating responses fixSpaces = '+fixSpaces);
+
+    api.plainResponse = response.plain(testCase, api, fixSpaces, fuzzyDistance);
+    api.ssmlResponse = response.ssml(testCase, api, fixSpaces, fuzzyDistance);
 
     return api;
   }
