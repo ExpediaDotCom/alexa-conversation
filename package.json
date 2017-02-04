@@ -1,6 +1,6 @@
 {
   "name": "alexa-conversation",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Functional test framework for Amazon Alexa skills",
   "repository": "https://github.com/ExpediaInc/alexa-conversation",
   "license": "ISC",
