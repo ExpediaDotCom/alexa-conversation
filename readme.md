@@ -71,7 +71,7 @@ Initializes a new `conversation` and returns itself.
 #### Optional parameters:
 
 - `sessionId` *String*: Will default to `SessionId.ee2e2123-75dc-4b32-bf87-8633ba72c294` if not provided.
-- `fixSpaces` *Boolean*: Defaults to false. If set to true, it will remove any unnecessary spaces form the *actual8 responses before performing any assertions against them. Example: double spaces, spaces before comma or other punctuation marks, etc. This can be useful depending on how you build your reponses.
+- `fixSpaces` *Boolean*: Defaults to false. If set to true, it will remove any unnecessary spaces form the *actual* responses before performing any assertions against them. Example: double spaces, spaces before comma or other punctuation marks, etc. This can be useful depending on how you build your reponses.
 - `userId` *String*: Will default to `amzn1.ask.account.AHEYQEFEHVSPRHPZS4ZKSLDADKC62MMFTEC7MVZ636U56XIFWCFUAJ2Q2RJE47PNDHDBEEMMDTEQXWFSK3OPALF4G2D2QAJW4SDMEI5DCULK5G4R32T76G5SZIWDMJ2ZZQ37UYH2BIXBQ3GIGEBIRW4M4YV5QOQG3JXHB73CTH6AAPYZBOIQE5N3IKUETT54HMTRUX2EILTFGWQ` if not provided.
 - `accessToken` *String*: Will default to  `0b42d14150e71fb356f2abc42f5bc261dd18573a86a84aa5d7a74592b505a0b7` if not provided.
 - `requestId` *String*: Will default to  `EdwRequestId.33ac9138-640f-4e6e-ab71-b9619b2c2210` if not provided.
