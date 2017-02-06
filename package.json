@@ -1,9 +1,10 @@
 {
   "name": "alexa-conversation",
   "version": "0.0.3",
-  "description": "Functional test framework for Amazon Alexa skills",
-  "repository": "https://github.com/ExpediaInc/alexa-conversation",
-  "license": "ISC",
+  "keywords": "test, alexa, integration test, functional test, conversation",
+  "description": "Integration test framework for Amazon Alexa skills",
+  "repository": "https://github.com/ExpediaDotCom/alexa-conversation",
+  "license": "MIT",
   "engines": {
     "node": ">=5.0.0"
   },
@@ -22,7 +23,6 @@
     "chai": "^3.5.0",
     "color": "^1.0.2",
     "fuzzyset.js": "0.0.1",
-    "mocha": "^3.0.0",
     "stacktrace-js": "^1.3.1",
     "striptags": "^2.1.1",
     "underscore": "^1.8.3"
@@ -30,6 +30,5 @@
   "devDependencies": {
     "eslint": "^3.5.0",
     "eslint-config-google": "^0.6.0",
-    "mocha": "^3.2.0"
   }
 }

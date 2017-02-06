@@ -1,6 +1,6 @@
 # Alexa Conversation: Tests for your Alexa skills
 
-Framework to easily test your Alexa skills functionally by creating a **conversation** with your skill. This framework makes it easy to test your Alexa skill's outputs for a given user input (intent) in different ways. This library is build on top of mocha, so you will need mocha installed in order to run the tests written with this framework, 
+Framework to easily test your Alexa skills functionally by creating a **conversation** with your skill. This framework makes it easy to test your Alexa skill's outputs for a given user input (intent) in different ways. This library is build on top of mocha, so you will need mocha installed in order to run the tests written with this framework,
 
 ## Install
 
@@ -19,26 +19,31 @@ In your functional test files, include the `alexa-conversation` package
 ```js
 
 const conversation = require('alexa-conversation');
-const app = require('../../index.js'); // your Alexa skill main file. `app.handle` needs to exist
+const app = require('../../index.js'); // your Alexa skill's main file. `app.handle` needs to exist
 
 const opts = { // those will be used to generate the requests to your skill
-  name: 'Conversation Name',
+  name: 'Test Conversation',
   app: app,
   appId: 'your-app-id'
-  // Other optional parameters (see below)
+  // Other optional parameters. See readme.md
 };
 
-
+// initialize the conversation
 conversation(opts)
-  .userSays('LaunchIntent')
-    .plainResponse
+  .userSays('LaunchIntent') // trigger the first Intent
+    .plainResponse // this gives you access to the non-ssml response
+	    // asserts that response and reprompt are equal to the given text
       .shouldEqual('Welcome back', 'This is the reprompt')
+	    // assert not Equals
       .shouldNotEqual('Wrong answer', 'Wrong reprompt')
+ 	    // assert that repsonse contains the text
       .shouldContain('Welcome')
-      .shouldMatch(/<say>Welcome back</say>/)
+  	  // assert that the response matches the given Regular Expression
+      .shouldMatch(/Welcome(.*)back/)
+	    // fuzzy match, not recommended for production use. See readme.md for more details
       .shouldApproximate('This is an approximate match')
-  .userSays('IntentWhichRequiresSlots', {slotOne: 'slotValue'})
-    .ssmlResponse
+  .userSays('IntentWhichRequiresSlots', {slotOne: 'slotValue'}) // next interaction, this time with a slot.
+    .ssmlResponse // access the SSML response
       .shouldMatch(/<say>(Hello|Bye)</say>/)
       .shouldNotMatch(/<say>Wrong answer</say>/)
   .end(); // this will actually run the conversation defined above
