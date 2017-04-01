@@ -65,8 +65,16 @@ function initResponse(test, conversationApi, fixSpaces, fuzzyDefault, isSsml) {
       if (testCase.actual.response.outputSpeech.ssml) {
         speech = processActual(testCase.actual.response.outputSpeech.ssml);
       }
-      if (testCase.actual.response.reprompt && testCase.actual.response.reprompt.outputSpeech.ssml) {
-        reprompt = processActual(testCase.actual.response.reprompt.outputSpeech.ssml);
+      else if (testCase.actual.response.outputSpeech.text) {
+        speech = testCase.actual.response.outputSpeech.text;
+      }
+      if (testCase.actual.response.reprompt) {
+        if (testCase.actual.response.reprompt.outputSpeech.ssml) {
+          reprompt = processActual(testCase.actual.response.reprompt.outputSpeech.ssml);
+        }
+        else if (testCase.actual.response.reprompt.outputSpeech.text) {
+          reprompt = testCase.actual.response.reprompt.outputSpeech.text;
+        }
       }
     }
 
