@@ -2,13 +2,13 @@
 
 const intentStubs = require('./intent-stubs');
 
-function handle(event, callbacks){
+function handle(event, callbacks) {
   const intentName = event.request.intent;
-  const response =  intentStubs[intentName];
-  if(response){
+  const response = intentStubs[intentName];
+  if (response) {
     callbacks.succeed(response);
   } else {
-    callbacks.fail
+    callbacks.fail('No intent found');
   }
 }
 

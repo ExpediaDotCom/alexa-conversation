@@ -1,0 +1,16 @@
+{
+  "phonemeIntent": {
+    "response": {
+      "outputSpeech": {
+        "ssml": "<speak> Thank you for using <phoneme alphabet='ipa' ph='ɛkˈspidiə'>Expedia</phoneme> </speak>"
+      }
+    }
+  },
+  "breakIntent": {
+    "response": {
+      "outputSpeech": {
+        "ssml": "<s>Good morning!</s> <break time='400ms'/> I can help you search flights or hotels, <break time='300ms'/> end"
+      }
+    }
+  }
+}
