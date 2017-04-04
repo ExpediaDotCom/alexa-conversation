@@ -28,14 +28,9 @@ module.exports = function conversation({name, app, appId,
   locale = 'en-US',
   fixSpaces = false,
   fuzzyDistance = 0.93,
-  handler = null
+  handler = (app && app.handler) || null
 }) {
-  let appHandler = function() { throw new Error("Must provide either an app or a handler."); };
-  if (handler) {
-    appHandler = handler;
-  } else if (app && app.handler) {
-    appHandler = app.handler;
-  }
+  if(handler === null) throw new Error("Must provide either an app or handler.");
 
   const requestBuilder = RequestBuilder.init({appId, sessionId, userId, accessToken, requestId, locale});
   // chain of promises to handle the different conversation steps
@@ -88,7 +83,7 @@ module.exports = function conversation({name, app, appId,
     const slots = slotsArg || {};
     const index = step;
     dialog = dialog.then(prevEvent =>
-      sendRequest(requestBuilder.build(intentName, slots, prevEvent), appHandler).then(res => {
+      sendRequest(requestBuilder.build(intentName, slots, prevEvent), handler).then(res => {
         tests[index] = _.extend(tests[index], {intentName, slots, actual: res});
         return res;
       })
