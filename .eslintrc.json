@@ -23,6 +23,9 @@
       }
     ],
     "prefer-arrow-callback": "error",
-    "camelcase": "warn"
+    "camelcase": "warn",
+    "keyword-spacing": ["error", {
+      "after": true
+    }]
   }
 }
