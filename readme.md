@@ -19,12 +19,15 @@ In your functional test files, include the `alexa-conversation` package
 ```js
 
 const conversation = require('alexa-conversation');
-const app = require('../../index.js'); // your Alexa skill's main file. `app.handle` needs to exist
+const app = require('../../index.js'); // your Alexa skill's main file.
 
 const opts = { // those will be used to generate the requests to your skill
   name: 'Test Conversation',
+  appId: 'your-app-id',
+  // Either provide your app (app.handler must exist)...
   app: app,
-  appId: 'your-app-id'
+  // ...or pass the handler in directly (for example, if you have a custom handler name)
+  handler: app.customHandlerName
   // Other optional parameters. See readme.md
 };
 
@@ -65,7 +68,8 @@ Initializes a new `conversation` and returns itself.
 #### Non-optional parameters:
 
 - `name` *String*: The name you want this conversation to have (useful for the test reports)
-- `app` *Object*: Your Alexa skill main app object (normally what is returned from your `index.js` file). It needs to expose `app.handle`.
+- `app` *Object*: Your Alexa skill main app object (normally what is returned from your `index.js` file). It either needs to expose `app.handler`, or you can pass in a `handler` instead (see below)
+- `handler` *Function*: If your app doesn't expose a `handler` method or you want to use a custom handler, you can pass the handler in directly - this will take precedence over `app.handler`
 - `appId` *String*: Your Alexa Skill Id in order to build requests that will be accepted by your skill.
 
 #### Optional parameters:

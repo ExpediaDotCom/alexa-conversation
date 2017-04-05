@@ -6,9 +6,9 @@ const _ = require('underscore');
 const RequestBuilder = require('./request-builder');
 const response = require('./response');
 
-function sendRequest(event, app) {
+function sendRequest(event, handler) {
   return new Promise((resolve, reject) => {
-    app.handler(event, {
+    handler(event, {
       succeed: resolve,
       fail: reject
     });
@@ -27,8 +27,11 @@ module.exports = function conversation({name, app, appId,
   requestId = 'EdwRequestId.33ac9138-640f-4e6e-ab71-b9619b2c2210',
   locale = 'en-US',
   fixSpaces = false,
-  fuzzyDistance = 0.93
+  fuzzyDistance = 0.93,
+  handler = (app && app.handler) || null
 }) {
+  if (handler === null) throw new Error('Must provide either an app or handler.');
+
   const requestBuilder = RequestBuilder.init({appId, sessionId, userId, accessToken, requestId, locale});
   // chain of promises to handle the different conversation steps
   const conversationName = name;
@@ -80,7 +83,7 @@ module.exports = function conversation({name, app, appId,
     const slots = slotsArg || {};
     const index = step;
     dialog = dialog.then(prevEvent =>
-      sendRequest(requestBuilder.build(intentName, slots, prevEvent), app).then(res => {
+      sendRequest(requestBuilder.build(intentName, slots, prevEvent), handler).then(res => {
         tests[index] = _.extend(tests[index], {intentName, slots, actual: res});
         return res;
       })
