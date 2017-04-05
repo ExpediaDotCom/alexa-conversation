@@ -30,7 +30,7 @@ module.exports = function conversation({name, app, appId,
   fuzzyDistance = 0.93,
   handler = (app && app.handler) || null
 }) {
-  if(handler === null) throw new Error("Must provide either an app or handler.");
+  if(handler === null) throw new Error('Must provide either an app or handler.');
 
   const requestBuilder = RequestBuilder.init({appId, sessionId, userId, accessToken, requestId, locale});
   // chain of promises to handle the different conversation steps
