@@ -1,6 +1,6 @@
 {
   "name": "alexa-conversation",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "dependencies": {
     "acorn": {
       "version": "5.0.3",
