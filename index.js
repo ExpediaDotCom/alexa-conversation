@@ -1,6 +1,6 @@
 'use strict';
 
-const colors = require('colors/safe');
+const colors = require('color');
 const StackTrace = require('stacktrace-js');
 const _ = require('underscore');
 const RequestBuilder = require('./request-builder');
