@@ -9,6 +9,9 @@ function buildSlots(slots) {
       name: key,
       value: value
     };
+    if(! _.isString(value)){
+      res[key] = {...res[key],...value}
+    }
   });
   return res;
 }
