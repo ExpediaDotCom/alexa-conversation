@@ -23,14 +23,14 @@ function initResponse(test, conversationApi, fixSpaces, fuzzyDefault, isSsml) {
   // public
 
   const responseApi = {
-    shouldEqual: (expected, reprompt) => shouldEqual(true, expected, reprompt),
-    shouldNotEqual: (expected, reprompt) => shouldEqual(false, expected, reprompt),
-    shouldContain: (expected, reprompt) => shouldContain(true, expected, reprompt),
-    shouldNotContain: (expected, reprompt) => shouldContain(false, expected, reprompt),
-    shouldApproximate: (expected, reprompt, fuzzyScoreOverride) => shouldApproximate(true, expected, reprompt, fuzzyScoreOverride),
-    shouldNotApproximate: (expected, reprompt, fuzzyScoreOverride) => shouldApproximate(false, expected, reprompt, fuzzyScoreOverride),
-    shouldMatch: (regex, regexReprompt) => shouldMatch(true, regex, regexReprompt),
-    shouldNotMatch: (regex, regexReprompt) => shouldMatch(false, regex, regexReprompt)
+    shouldEqual: (...args) => shouldEqual(true, ...args),
+    shouldNotEqual: (...args) => shouldEqual(false, ...args),
+    shouldContain: (...args) => shouldContain(true, ...args),
+    shouldNotContain: (...args) => shouldContain(false, ...args),
+    shouldApproximate: (...args) => shouldApproximate(true, ...args),
+    shouldNotApproximate: (...args) => shouldApproximate(false, ...args),
+    shouldMatch: (...args) => shouldMatch(true, ...args),
+    shouldNotMatch: (...args) => shouldMatch(false, ...args)
   };
 
   function api() {
@@ -76,7 +76,7 @@ function initResponse(test, conversationApi, fixSpaces, fuzzyDefault, isSsml) {
   // used to build public function
 
   function shouldEqual(shouldOrNot, expected, expectedReprompt) {
-    test.checks.push(testCase => {
+    test.checks.push((testCase) => {
       const actuals = getActuals(testCase);
       if (paramPassed(expected)) {
         it(`Alexa's ${type} response should ${not(shouldOrNot)}equal: ${expected}`, () =>
@@ -93,7 +93,7 @@ function initResponse(test, conversationApi, fixSpaces, fuzzyDefault, isSsml) {
   }
 
   function shouldContain(shouldOrNot, expected, expectedReprompt) {
-    test.checks.push(testCase => {
+    test.checks.push((testCase) => {
       const actuals = getActuals(testCase);
       if (paramPassed(expected)) {
         it(`Alexa's ${type} response should ${not(shouldOrNot)}contain: ${expected}`, () =>
@@ -110,7 +110,7 @@ function initResponse(test, conversationApi, fixSpaces, fuzzyDefault, isSsml) {
   }
 
   function shouldMatch(shouldOrNot, regex, regexReprompt) {
-    test.checks.push(testCase => {
+    test.checks.push((testCase) => {
       const actuals = getActuals(testCase);
       if (paramPassed(regex)) {
         it(`Alexa's ${type} response should ${not(shouldOrNot)}match: ${regex}`, () =>
@@ -128,7 +128,7 @@ function initResponse(test, conversationApi, fixSpaces, fuzzyDefault, isSsml) {
 
   function shouldApproximate(shouldOrNot, expected, expectedReprompt, fuzzyScoreOverride) {
     const minFuzzyScore = (typeof fuzzyScoreOverride === 'undefined') ? FUZZY_MIN_SCORE : fuzzyScoreOverride;
-    test.checks.push(testCase => {
+    test.checks.push((testCase) => {
       const actuals = getActuals(testCase);
       if (paramPassed(expected)) {
         const expectedFuzzy = fuzzy([expected]);
@@ -158,6 +158,6 @@ function initResponse(test, conversationApi, fixSpaces, fuzzyDefault, isSsml) {
 }
 
 module.exports = {
-  plain: (test, conversationApi, fixSpaces, fuzzyDefault) => initResponse(test, conversationApi, fixSpaces, fuzzyDefault, false),
-  ssml: (test, conversationApi, fixSpaces, fuzzyDefault) => initResponse(test, conversationApi, fixSpaces, fuzzyDefault, true)
+  plain: (...args) => initResponse(...args, false),
+  ssml: (...args) => initResponse(...args, true)
 };

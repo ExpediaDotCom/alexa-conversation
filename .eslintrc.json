@@ -26,6 +26,7 @@
     "camelcase": "warn",
     "keyword-spacing": ["error", {
       "after": true
-    }]
+    }],
+    "comma-dangle": 0
   }
 }
