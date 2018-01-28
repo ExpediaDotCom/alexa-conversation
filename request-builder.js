@@ -5,16 +5,16 @@ const _ = require('underscore');
 function buildSlots(slots) {
   const res = {};
   _.each(slots, (value, key) => {
-    if( _.isString(value)){
+    if ( _.isString(value)) {
       res[key] = {
         name: key,
         value: value
-      }
-    }else{
+      };
+    } else {
       res[key] = {
         name: key,
         ...value
-      }
+      };
     }
   });
   return res;

@@ -5,6 +5,13 @@
     "es6": true,
     "mocha": true
   },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
   "rules": {
     "no-console": 0,
     "require-jsdoc": 0,
