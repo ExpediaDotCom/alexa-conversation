@@ -12,8 +12,8 @@ function buildSlots(slots) {
       };
     } else {
       res[key] = {
-        name: key,
-        ...value
+        ...value,
+        name: key
       };
     }
   });
