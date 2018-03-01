@@ -2,17 +2,15 @@
 
 Framework to easily test your Alexa skills functionally by creating a **conversation** with your skill. This framework makes it easy to test your Alexa skill's outputs for a given user input (intent) in different ways. This library is build on top of mocha, so you will need mocha installed in order to run the tests written with this framework,
 
-## Install
-
-### Install `alexa-conversation`
+# Install
 
 `npm install --save-dev alexa-conversation`
 
-### Install `mocha` (if you don't have it already)
+Also install `mocha` (if you don't have it already)
 
 `npm install -g mocha` (you can install it locally too, up to you)
 
-## How to use
+# Usage / Example
 
 In your functional test files, include the `alexa-conversation` package
 
@@ -60,20 +58,20 @@ Again, this module requires `mocha` as a `peerDependency` (make sure you have it
 mocha {path/to/your/test.js}
 ```
 
-## API
+# API
 
-### `conversation(opts: Object)`
+## `conversation(opts: Object)`
 
 Initializes a new `conversation` and returns itself.
 
-#### Non-optional parameters:
+### Non-optional parameters:
 
 - `name` *String*: The name you want this conversation to have (useful for the test reports)
 - `app` *Object*: Your Alexa skill main app object (normally what is returned from your `index.js` file). It either needs to expose `app.handler`, or you can pass in a `handler` instead (see below)
 - `handler` *Function*: If your app doesn't expose a `handler` method or you want to use a custom handler, you can pass the handler in directly - this will take precedence over `app.handler`
 - `appId` *String*: Your Alexa Skill Id in order to build requests that will be accepted by your skill.
 
-#### Optional parameters:
+### Optional parameters:
 
 - `sessionId` *String*: Will default to `SessionId.ee2e2123-75dc-4b32-bf87-8633ba72c294` if not provided.
 - `fixSpaces` *Boolean*: Defaults to false. If set to true, it will remove any unnecessary spaces form the *actual* responses before performing any assertions against them. Example: double spaces, spaces before comma or other punctuation marks, etc. This can be useful depending on how you build your reponses.
@@ -81,34 +79,56 @@ Initializes a new `conversation` and returns itself.
 - `accessToken` *String*: Will default to  `0b42d14150e71fb356f2abc42f5bc261dd18573a86a84aa5d7a74592b505a0b7` if not provided.
 - `requestId` *String*: Will default to  `EdwRequestId.33ac9138-640f-4e6e-ab71-b9619b2c2210` if not provided.
 - `locale` *String*: Will default to `en-US` if not provided.
+- `contextObj` _String_: Optional context object to pass along in every request. If not passed, a default one will be provided (see `request-builder.js` for values)
 
-### `userSays(intentName: String, slots: Object)`
+## `userSays(intentName, slots)`
+
+### Params
+
+- intentName `<String>`
+- slots `<Object>`
 
 Specifies what intent to trigger and the optional `slots` that it needs. The `slots` object takes key-value pairs as parameters. The value of pair accepts String or [Slot Object]( https://developer.amazon.com/docs/custom-skills/request-types-reference.html#slot-object ).
 
-### `ssmlResponse`
+## `ssmlResponse`
 
 Use this member to add checks to the last `SSML` `response` and `reprompt`.
 
 The `response` is taken form the JSON field: `response.outputSpeech.ssml` and the reprompt form the `response.reprompt.outputSpeech.ssml`
 
-### `plainResponse`
+## `plainResponse`
 
 Use this member to add checks to the last `plain text` `response` and reprompt. Plain text is the same as the `ssmlResponse` without the markup tags.
 
-### `shouldMatch(expectedSpeechRegex: Regex, expectedRepromptRegex: Regex)`
+## `shouldMatch(expectedSpeechRegex, expectedRepromptRegex)`
+
+### Params
+
+- expectedSpeechRegex `<Regex>`
+- expectedRepromptRegex `<Regex>`
 
 Will assert that `expectedSpeechRegex` and `expectedRepromptRegex` Strings **match** (`String.match()`) the responses from `plainResponse` or `ssmlResponse`.
 
 This is useful for implementing powerful checks like cases where several responses are valid (i.e. dates, locations, or dynamic conditions like weather, etc.)
 
-### `shouldNotMatch(expectedSpeechRegex: Regex, expectedRepromptRegex: Regex)`
+## `shouldNotMatch(expectedSpeechRegex, expectedRepromptRegex)`
+
+### Params
+
+- expectedSpeechRegex `<Regex>`
+- expectedRepromptRegex `<Regex>`
 
 Will assert that `expectedSpeechRegex` and `expectedRepromptRegex` Strings **do not match** (`!String.match()`) the responses from `plainResponse` or `ssmlResponse`.
 
 This is useful for implementing powerful checks like cases where several responses are valid (i.e. dates, locations, or dynamic conditions like weather, etc.)
 
-### `shouldApproximate(expectedSpeech: String, expectedReprompt: String, minFuzzyScore: float)`
+## `shouldApproximate(expectedSpeech, expectedReprompt, minFuzzyScore)`
+
+### Params
+
+- expectedSpeech `<String>`
+- expectedReprompt `<String>`
+- minFuzzyScore `<Number>`
 
 Will assert that `expectedSpeech` and `expectedReprompt` Strings **are approximately the same** as the ones in `ssmlResponse` or `plainResponse` using **fuzzy string matching**. The default minimum fuzzy score to pass the test is `0.85`, you can override it by passing a new value to the call as the 3rd parameter (accepts values from `[0...1]`).
 
@@ -116,7 +136,13 @@ This check is useful if you want to assert `actual` and `expected` are *the same
 
 Learn more about the fuzzy matcher used: [fuzzyset.js](http://glench.github.io/fuzzyset.js/)
 
-### `shouldNotApproximate(expectedSpeech: String, expectedReprompt: String, minFuzzyScore: float)`
+## `shouldNotApproximate(expectedSpeech, expectedReprompt, minFuzzyScore)`
+
+### Params
+
+- expectedSpeech `<String>`
+- expectedReprompt `<String>`
+- minFuzzyScore `<Number>`
 
 Will assert that `expectedSpeech` and `expectedReprompt` Strings **are approximately *NOT* the same** as the ones in `ssmlResponse` or `plainResponse` using **fuzzy string matching**. The default minimum fuzzy score to pass the test is `0.85`, you can override it by passing a new value to the call as the 3rd parameter (accepts values from `[0...1]`).
 
@@ -124,22 +150,42 @@ This check is useful if you want to assert `actual` and `expected` are *the same
 
 Learn more about the fuzzy matcher used: [fuzzyset.js](http://glench.github.io/fuzzyset.js/)
 
-### `shouldEqual(expectedSpeech: String, expectedReprompt: String)`
+## `shouldEqual(expectedSpeech: String, expectedReprompt: String)`
+
+### Params
+
+- expectedSpeech `<String>`
+- expectedReprompt `<String>`
 
 Will assert that `expectedSpeech` and `expectedReprompt` Strings **equal** the ones in `ssmlResponse` or `plainResponse`.
 
 
-### `shouldContain(expectedSpeech: String, expectedReprompt: String)`
+## `shouldContain(expectedSpeech, expectedReprompt)`
+
+### Params
+
+- expectedSpeech `<String>`
+- expectedReprompt `<String>`
 
 Will assert that `expectedSpeech` and `expectedReprompt` Strings **are contained** the ones in `ssmlResponse` or `plainResponse`.
 
 
-### `shouldNotEqual(expectedSpeech: String, expectedReprompt: String)`
+## `shouldNotEqual(expectedSpeech, expectedReprompt)`
+
+### Params
+
+- expectedSpeech `<String>`
+- expectedReprompt `<String>`
 
 Will assert that `expectedSpeech` and `expectedReprompt` Strings **are not equal** to the ones in `ssmlResponse` or `plainResponse`.
 
 
-### `shouldNotContain(expectedSpeech: String, expectedReprompt: String)`
+## `shouldNotContain(expectedSpeech, expectedReprompt)`
+
+### Params
+
+- expectedSpeech `<String>`
+- expectedReprompt `<String>`
 
 Will assert that `expectedSpeech` and `expectedReprompt` Strings **are not contained** the ones in `ssmlResponse` or `plainResponse`.
 
