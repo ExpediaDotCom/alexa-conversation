@@ -1,3 +1,5 @@
+/* eslint-env node, mocha */
+
 'use strict';
 
 const colors = require('colors/safe');
@@ -61,7 +63,7 @@ module.exports = function conversation({name, app, appId,
 
   function executeTestCase(testCase) {
     describe(`User triggers: ${testCase.intentName} ${printSlots(testCase.slots)}`, () => {
-      testCase.checks.forEach(check => check(testCase));
+      testCase.checks.forEach((check) => check(testCase));
     });
   }
 
@@ -82,8 +84,8 @@ module.exports = function conversation({name, app, appId,
     initStep(step);
     const slots = slotsArg || {};
     const index = step;
-    dialog = dialog.then(prevEvent =>
-      sendRequest(requestBuilder.build(intentName, slots, prevEvent), handler).then(res => {
+    dialog = dialog.then((prevEvent) =>
+      sendRequest(requestBuilder.build(intentName, slots, prevEvent), handler).then((res) => {
         tests[index] = _.extend(tests[index], {intentName, slots, actual: res});
         return res;
       })
@@ -100,7 +102,7 @@ module.exports = function conversation({name, app, appId,
     describe(`Executing conversation: ${conversationName}`, function() {
       this.timeout(5000);
       before(() => dialog.then(testConversation).catch(errorLogger));
-      it('Finished executing conversation', done => done());
+      it('Finished executing conversation', (done) => done());
       // http://stackoverflow.com/questions/22465431/how-can-i-dynamically-generate-test-cases-in-javascript-node
     });
   }

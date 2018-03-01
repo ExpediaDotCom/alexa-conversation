@@ -34,6 +34,7 @@
     "keyword-spacing": ["error", {
       "after": true
     }],
-    "comma-dangle": 0
+    "comma-dangle": 0,
+    "no-invalid-this": 0
   }
 }
