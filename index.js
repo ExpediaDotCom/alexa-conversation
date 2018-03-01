@@ -27,6 +27,7 @@ module.exports = function conversation({name, app, appId,
   userId = 'amzn1.ask.account.AHEYQEFEHVSPRHPZS4ZKSLDADKC62MMFTEC7MVZ636U56XIFWCFUAJ2Q2RJE47PNDHDBEEMMDTEQXWFSK3OPALF4G2D2QAJW4SDMEI5DCULK5G4R32T76G5SZIWDMJ2ZZQ37UYH2BIXBQ3GIGEBIRW4M4YV5QOQG3JXHB73CTH6AAPYZBOIQE5N3IKUETT54HMTRUX2EILTFGWQ',
   accessToken = '0b42d14150e71fb356f2abc42f5bc261dd18573a86a84aa5d7a74592b505a0b7',
   requestId = 'EdwRequestId.33ac9138-640f-4e6e-ab71-b9619b2c2210',
+  deviceId = 'deviceId',
   locale = 'en-US',
   fixSpaces = false,
   fuzzyDistance = 0.93,
@@ -34,7 +35,7 @@ module.exports = function conversation({name, app, appId,
 }) {
   if (handler === null) throw new Error('Must provide either an app or handler.');
 
-  const requestBuilder = RequestBuilder.init({appId, sessionId, userId, accessToken, requestId, locale});
+  const requestBuilder = RequestBuilder.init(arguments);
   // chain of promises to handle the different conversation steps
   const conversationName = name;
   const tests = [];

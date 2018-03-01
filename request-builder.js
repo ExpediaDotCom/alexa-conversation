@@ -49,6 +49,33 @@ function init(options) {
         },
         new: isNew
       },
+      context: {
+        System: {
+          device: {
+            deviceId: 'deviceId',
+            supportedInterfaces: {
+              AudioPlayer: {}
+            }
+          },
+          application: {
+            applicationId: options.appId
+          },
+          user: {
+            userId: options.userId,
+            accessToken: options.accessToken,
+            permissions: {
+              consentToken: 'ContentTokenZZZZZ'
+            }
+          },
+          apiEndpoint: 'https://api.amazonalexa.com',
+          apiAccessToken: 'AxThk...'
+        },
+        AudioPlayer: {
+          playerActivity: 'PLAYING',
+          token: 'audioplayer-token',
+          offsetInMilliseconds: 0
+        }
+      },
       request: {
         type: 'IntentRequest',
         requestId: options.requestId,
@@ -61,6 +88,10 @@ function init(options) {
       },
       version: '1.0'
     };
+
+    if (options.contextObj !== null) {
+      res.context = options.contextObj;
+    }
     isNew = false;
     return res;
   }
