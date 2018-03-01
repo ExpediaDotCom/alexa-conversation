@@ -49,6 +49,7 @@ conversation(opts)
     .ssmlResponse // access the SSML response
       .shouldMatch(/<say>(Hello|Bye)</say>/)
       .shouldNotMatch(/<say>Wrong answer</say>/)
+  .userSays('IntentWhichRequiresSlots', {slotOne: {value: 'slotValue', resolutions: {}}}) // you can  also pass a object as a slotValue.
   .end(); // this will actually run the conversation defined above
 
 ```
@@ -83,7 +84,7 @@ Initializes a new `conversation` and returns itself.
 
 ### `userSays(intentName: String, slots: Object)`
 
-Specifies what intent to trigger and the optional slots that it needs.
+Specifies what intent to trigger and the optional `slots` that it needs. The `slots` object takes key-value pairs as parameters. The value of pair accepts String or [Slot Object]( https://developer.amazon.com/docs/custom-skills/request-types-reference.html#slot-object ).
 
 ### `ssmlResponse`
 
