@@ -35,7 +35,7 @@ module.exports = function conversation({name, app, appId,
 }) {
   if (handler === null) throw new Error('Must provide either an app or handler.');
 
-  const requestBuilder = RequestBuilder.init(arguments);
+  const requestBuilder = RequestBuilder.init(arguments[0]);
   // chain of promises to handle the different conversation steps
   const conversationName = name;
   const tests = [];
