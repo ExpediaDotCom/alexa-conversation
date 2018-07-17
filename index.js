@@ -80,13 +80,14 @@ module.exports = function conversation({name, app, appId,
 
   // Public
 
-  function userSays(intentName, slotsArg) {
+  function userSays(intentName, slotsArg, dialogArg) {
     step++;
     initStep(step);
     const slots = slotsArg || {};
+    const dialogState = dialogArg || "COMPLETED";
     const index = step;
     dialog = dialog.then((prevEvent) =>
-      sendRequest(requestBuilder.build(intentName, slots, prevEvent), handler).then((res) => {
+      sendRequest(requestBuilder.build(intentName, slots, dialogState, prevEvent), handler).then((res) => {
         tests[index] = _.extend(tests[index], {intentName, slots, actual: res});
         return res;
       })

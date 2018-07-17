@@ -34,7 +34,7 @@ function init(options) {
     build
   };
 
-  function build(intentName, slots, prevEvent) {
+  function build(intentName, slots, dialog, prevEvent) {
     if (!options.appId) throw String('AppId not specified. Please run events.init(appId) before building a Request');
     const res = { // override more stuff later as we need
       session: {
@@ -84,7 +84,8 @@ function init(options) {
         intent: {
           name: intentName,
           slots: buildSlots(slots)
-        }
+        },
+        dialogState: dialog
       },
       version: '1.0'
     };
