@@ -35,7 +35,7 @@ module.exports = function conversation({name, app, appId,
 }) {
   if (handler === null) throw new Error('Must provide either an app or handler.');
 
-  const requestBuilder = RequestBuilder.init(arguments);
+  const requestBuilder = RequestBuilder.init(arguments[0]);
   // chain of promises to handle the different conversation steps
   const conversationName = name;
   const tests = [];
@@ -80,13 +80,14 @@ module.exports = function conversation({name, app, appId,
 
   // Public
 
-  function userSays(intentName, slotsArg) {
+  function userSays(intentName, slotsArg, dialogArg) {
     step++;
     initStep(step);
     const slots = slotsArg || {};
+    const dialogState = dialogArg || "COMPLETED";
     const index = step;
     dialog = dialog.then((prevEvent) =>
-      sendRequest(requestBuilder.build(intentName, slots, prevEvent), handler).then((res) => {
+      sendRequest(requestBuilder.build(intentName, slots, dialogState, prevEvent), handler).then((res) => {
         tests[index] = _.extend(tests[index], {intentName, slots, actual: res});
         return res;
       })
